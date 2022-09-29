@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "automataDecimal.h"
+#include "automataSimbolos.h"
 
 char *simbolos = "<>$=!)(}{:\";+-*/\\";
 char caracter,*ret;
@@ -90,7 +92,6 @@ int isEntero(FILE* punt){
                     if(c == EOF){
                        fseek(punt, 1, SEEK_CUR);
                     }
-
 
                     break;
                 }
@@ -222,10 +223,18 @@ int main(){
                 //si no lo aceptó el automata, se devuelve el puntero a donde estaba antes de entrar al mismo
                 fseek(file, aux, SEEK_SET);
 
-                //mandar al de decimales
-                break;
+                if(IsNumberDecimal(file) == 1){
+                    printf("es numero decimal");
 
+                    lex = lexema(file, aux, ftell(file));
+                    printf(" --- lexema: %s\n", lex);
+                }else{
+
+                    fseek(file, aux, SEEK_SET);
                     //si tampoco se manda al de simbolo
+
+                }
+
             }
 
         }
