@@ -3,23 +3,53 @@
 #include <string.h>
 #include <ctype.h>
 
-char *simbolos = "<_>$=!)(}{:\";.+-*/\\";
-char caracter,*ret,*pnt;
+char *simbolos = "<>$=!)(}{:\";+-*/\\";
+char caracter,*ret;
 
 int isSimbol(char c){
-    ret = strstr(simbolos, pnt);
 
-    if(ret != NULL){
+    if(strchr(simbolos, c) != NULL){
         return 1;
     }else{
         return 0;
     }
 }
 
-int isPalabraReservada(FILE* punt){
-    int estado = 1;
+void concatenarCharACadena(char c, char *cadena)
+{
+    char cadenaTemporal[2];
+    cadenaTemporal[0] = c;
+    cadenaTemporal[1] = '\0';
+    strcat(cadena, cadenaTemporal);
+}
 
-    char *pals = '|Verdadero|Falso|Entero|Logico|Decimal|Cadena|Por|Tons|';
+char *concatenarCadenaACadena (char *cadOrig, char *cadDest)
+{
+    char *cadenaTemporal;
+    int y;
+    int x;
+    for(y = 0; y<strlen(cadDest); y++){
+        cadenaTemporal[y] = cadDest[y];
+    }
+    for(x = 0; x<strlen(cadOrig); x++){
+        cadenaTemporal[y+x] = cadOrig[x];
+    }
+    cadenaTemporal[strlen(cadOrig)+strlen(cadDest)] = '\0';
+    return cadenaTemporal;
+}
+
+int isPalabraReservada(char* pal){
+    char *pals = "|Verdadero|Falso|Entero|Logico|Decimal|Cadena|Por|Tons|";
+
+    char *cad = "|";
+    char *aux = concatenarCadenaACadena(pal, cad);
+    char *aux2 = concatenarCadenaACadena("|", aux);
+    if(strstr(pals, aux2) != NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+
 }
 
 int isEntero(FILE* punt){
@@ -31,36 +61,44 @@ int isEntero(FILE* punt){
             case 1:
                 if(isdigit(c)!=0){
                     estado = 3;
-                    c = (char)fgetc(punt);
                 }else if(c == '+' || c == '-'){
                     estado = 2;
-                    c = (char)fgetc(punt);
                 }else{
                     estado = 0;
                     break;
                 }
+                c = (char)fgetc(punt);
               break;
             case 2:
                 if(isdigit(c)!=0){
                     estado = 3;
-                    c = (char)fgetc(punt);
                 }else{
                     estado = 0;
                     break;
                 }
+                c = (char)fgetc(punt);
               break;
             case 3:
                 if(isdigit(c)!=0){
                     estado = 3;
-                    c = (char)fgetc(punt);
                 }else if (c == ' ' || isSimbol(c)!=0 || c == EOF || c == '\n'){
                     estado = 4;
+
+                    if(c == '\n'){
+                       fseek(punt, -1, SEEK_CUR);
+                    }
+                    if(c == EOF){
+                       fseek(punt, 1, SEEK_CUR);
+                    }
+
+
                     break;
                 }
                 else{
                     estado = 0;
                     break;
                 }
+                c = (char)fgetc(punt);
               break;
         }
 
@@ -80,39 +118,45 @@ int isIdentificador (FILE* punt) {
     while (estado == 1 || estado == 2 || estado == 3){
         switch (estado) {
             case 1:
-
               if(isalpha(c) == 1){
                 estado = 2;
-                c = (char)fgetc(punt);
               }else{
                   estado = 0;
                   break;
               }
+              c = (char)fgetc(punt);
               break;
             case 2:
               if(isalnum(c)!=0){
                 estado = 2;
-                c = (char)fgetc(punt);
               }else if (c == '_'){
                 estado = 3;
-                c = (char)fgetc(punt);
               }else if (c == ' ' || c == EOF || isSimbol(c)!=0 || c == '\n'){
                 estado = 4;
+
+                if(c == '\n'){
+                   fseek(punt, -1, SEEK_CUR);
+                }
+                if(c == EOF){
+                   fseek(punt, 1, SEEK_CUR);
+                }
+
                 break;
               }
               else {
                 estado = 0;
                 break;
               }
+              c = (char)fgetc(punt);
               break;
             case 3:
               if(isalnum(c)!=0){
                 estado = 2;
-                c = (char)fgetc(punt);
               } else{
                 estado = 0;
                 break;
               }
+              c = (char)fgetc(punt);
               break;
         }
 
@@ -142,8 +186,7 @@ char *lexema (FILE* file, int aux, int act) {
     strcpy(lexema, "");
 
     fgets(lexema, (act-aux), file);
-    //printf("act: %d\n", act);
-    fseek(file, act, SEEK_SET);
+    fseek(file, act-1, SEEK_SET);
 
     return lexema + '\0';
 }
@@ -162,7 +205,6 @@ int main(){
         return 0;
     }
 
-    pnt = &caracter;
     caracter = (char)fgetc(file);
     printf("Linea %d\n", num_lin);
     while (caracter != EOF){
@@ -175,7 +217,7 @@ int main(){
                 printf("es numero");
 
                 lex = lexema(file, aux, ftell(file));
-                printf("--- lexema: %s.\n", lex);
+                printf(" --- lexema: %s\n", lex);
             }else{
                 //si no lo aceptó el automata, se devuelve el puntero a donde estaba antes de entrar al mismo
                 fseek(file, aux, SEEK_SET);
@@ -190,12 +232,18 @@ int main(){
         else if (isalpha(caracter)!=0){
             //else if --- si es letra mandar a de palabra reservada, dentro de (si no es) mandar al de indentificador
             if(isIdentificador(file) == 1){
-                printf("es identificador");
-
                 lex = lexema(file, aux, ftell(file));
-                printf("--- lexema: %s.\n", lex);
+
+                if(isPalabraReservada(lex) == 1){
+                    printf("es palabra reservada");
+                }else{
+                    printf("es identificador");
+                }
+
+                printf(" --- lexema: %s\n", lex);
+
             }else{
-                printf("error de sintaxis \n");
+                printf("error lexico \n");
                 encontrarEspacio(file);
             }
 
@@ -203,8 +251,10 @@ int main(){
         else if(isSimbol(caracter)!=0){
             printf("es simbolo");
             lex = lexema(file, aux, ftell(file)+1);
-            printf("--- lexema: %s.\n", lex);
+            printf(" --- lexema: %s\n", lex);
         }
+
+        caracter = (char)fgetc(file);
 
         if(caracter=='\n'){
             num_lin++;
@@ -212,7 +262,7 @@ int main(){
             caracter = (char)fgetc(file);
         }
 
-        caracter = (char)fgetc(file);
+
     }
 
     fclose(file);

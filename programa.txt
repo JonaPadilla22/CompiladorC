@@ -1,2 +1,2 @@
-45012 * Num2 Variable_rt 23
-Num3 / 43
+Num2 = 23 * Tons;
+6542/-43= Var2 Decimal Num_3 4560;
