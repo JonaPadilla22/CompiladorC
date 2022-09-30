@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include "automataDecimal.h"
 #include "automataSimbolos.h"
+#include "automataCadenas.h"
 
 char *simbolos = "<>$=!)(}{:\";+-*/\\";
 char caracter,*ret;
@@ -175,6 +176,14 @@ void encontrarEspacio(FILE* punt) {
     char c = caracter;
     while (c != ' ') {
         c = (char)fgetc(punt);
+        printf("%c", c);
+    }
+}
+
+void encontrarFinLinea(FILE* punt) {
+    char c = caracter;
+    while (c != '\n') {
+        c = (char)fgetc(punt);
     }
 }
 
@@ -231,7 +240,28 @@ int main(){
                 }else{
 
                     fseek(file, aux, SEEK_SET);
+                     caracter = (char)fgetc(file);
                     //si tampoco se manda al de simbolo
+                    if(isSimbol(caracter)!=0){
+
+                        if(caracter=='"'){
+                            fseek(file, -1, SEEK_CUR);
+                            if(isCadena(file)!=0){
+                                printf("es cadena");
+                                lex = lexema(file, aux, ftell(file)+1);
+                                printf(" --- lexema: %s\n", lex);
+                            }else{
+                                printf("error lexico \n");
+                                fseek(file, -1, SEEK_CUR);
+                            }
+                        }else{
+                            printf("es simbolo");
+                            lex = lexema(file, aux, ftell(file)+1);
+                            printf(" --- lexema: %s\n", lex);
+                        }
+
+                    }
+
 
                 }
 
@@ -258,9 +288,23 @@ int main(){
 
         }//si es simbolo mandar al de simbolo
         else if(isSimbol(caracter)!=0){
-            printf("es simbolo");
-            lex = lexema(file, aux, ftell(file)+1);
-            printf(" --- lexema: %s\n", lex);
+
+            if(caracter=='"'){
+                fseek(file, -1, SEEK_CUR);
+                if(isCadena(file)!=0){
+                    printf("es cadena");
+                    lex = lexema(file, aux, ftell(file)+1);
+                    printf(" --- lexema: %s\n", lex);
+                }else{
+                    printf("error lexico \n");
+                    fseek(file, -1, SEEK_CUR);
+                }
+            }else{
+                printf("es simbolo");
+                lex = lexema(file, aux, ftell(file)+1);
+                printf(" --- lexema: %s\n", lex);
+            }
+
         }
 
         caracter = (char)fgetc(file);

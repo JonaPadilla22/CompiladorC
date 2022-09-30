@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1664491028 source:d:\usuarios\jonat\documentos\c\lexico\main.c
+1664513437 source:d:\usuarios\jonat\documentos\c\lexico\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"automataDecimal.h"
 	"automataSimbolos.h"
+	"automataCadenas.h"
 
 1664489414 d:\usuarios\jonat\documentos\c\lexico\automatadecimal.h
 	<stdlib.h>
@@ -14,6 +15,12 @@
 	<ctype.h>
 
 1664490170 d:\usuarios\jonat\documentos\c\lexico\automatasimbolos.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+
+1664506962 d:\usuarios\jonat\documentos\c\lexico\automatacadenas.h
 	<stdlib.h>
 	<string.h>
 	<stdio.h>

@@ -1,2 +1,4 @@
-Num2= 23.5 * Tons;
-6542/-43= Var2 Var5 Num_3 4560;
+4 = 23.5232 = Tons1
+542 - 43;
+Cadena Texto1 = "kawasaki;
+Entero Num_1 =-23
