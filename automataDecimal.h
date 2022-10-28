@@ -3,21 +3,21 @@
 #include <stdio.h>
 #include <ctype.h>
 
-int IsNumberDecimal(FILE *file)
+int IsNumberDecimal(char* str)
 {
-
     int estado = 1;
     char *simbolos = "+-";
-    char car;
+    int numc = 0;
+    char car = str[numc];
 
-    while (estado != 5 && estado !=0)
+    while (estado != 6 && estado !=0)
     {
-        car = fgetc(file);
+        car = str[numc];
+        numc++;
 
         switch (estado)
         {
         case 0:
-            printf("Error \n");
             break;
         case 1:
             if (isdigit(car) == 1)
@@ -58,9 +58,20 @@ int IsNumberDecimal(FILE *file)
         case 4:
             if (isdigit(car) == 1)
             {
-                continue;
+                estado = 5;
+            }else {
+                estado = 0;
             }
-            else estado = 5;
+            break;
+        case 5:
+            if(isdigit(car) == 1){
+                estado = 5;
+            }else if(car == '\0'){
+                estado = 6;
+            }else{
+                estado = 0;
+            }
+            break;
         }
     }
 

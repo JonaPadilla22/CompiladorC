@@ -1,4 +1,3 @@
-4 = 23.5b232 Tons1
-542 - 43;
-Cadena Texto1 = "kawasaki;
-Entero Num_1 =-23
+Cad != 66.77 " holaaaa ";
+Por"WOOW"(Y=0:Y<=10:Y++){
+};
