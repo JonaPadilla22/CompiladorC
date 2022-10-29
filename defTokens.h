@@ -1,3 +1,6 @@
+struct Token token;
+struct nodo *tokAct;
+
 const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
 
 enum TipoToken{
@@ -21,3 +24,21 @@ struct nodo{
     struct nodo *izq;
     struct nodo *der;
 };
+
+struct Token getInfoToken(struct nodo *act){
+    struct Token tok;
+    tok = act->info;
+    return tok;
+};
+
+static void getToken(){
+    tokAct=tokAct->der;
+    token = getInfoToken(tokAct);
+}
+
+void getAnteriorToken(){
+    tokAct=tokAct->izq;
+    token = getInfoToken(tokAct);
+}
+
+

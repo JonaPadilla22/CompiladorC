@@ -4,24 +4,18 @@
 #include <ctype.h>
 #include "defTokens.h"
 
-void match(char* expToken, struct Token actToken){
-    if(strcmp(expToken, actToken.Lexema) == 0){
-        //printf("son iguales\n");
+void match(char* expToken){
+    if(strcmp(expToken, token.Lexema) == 0){
+        getToken();
     }else{
-        printf("error en la linea %d columna %d, se esperaba %s\n", actToken.NumLinea, actToken.NumCol, expToken);
+        printf("error en la linea %d columna %d, se esperaba %s\n", token.NumLinea, token.NumCol, expToken);
     }
 }
 
-void matchTipoToken(char* expTipo, struct Token actToken){
-    if(strcmp(expTipo, tipoTokenNames[actToken.Tipo]) == 0){
-        //printf("mismo tipo token\n");
+void matchTipoToken(char* expTipo){
+    if(strcmp(expTipo, tipoTokenNames[token.Tipo]) == 0){
+        getToken();
     }else{
-        printf("error en la linea %d columna %d, se esperaba %s\n", actToken.NumLinea, actToken.NumCol, expTipo);
+        printf("error en la linea %d columna %d, se esperaba %s\n", token.NumLinea, token.NumCol, expTipo);
     }
-}
-
-struct Token getInfoToken(struct nodo *act){
-    struct Token tok;
-    tok = act->info;
-    return tok;
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1667064127 source:d:\usuarios\jonat\documentos\c\lexico\main.c
+1667067340 source:d:\usuarios\jonat\documentos\c\lexico\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -38,19 +38,19 @@
 	<stdlib.h>
 	<conio.h>
 
-1667063417 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
+1667067235 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"defTokens.h"
 
-1667064120 d:\usuarios\jonat\documentos\c\lexico\procsintparte2.h
+1667067260 d:\usuarios\jonat\documentos\c\lexico\procsintparte2.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"procSintaxis.h"
 
-1667063404 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
+1667067363 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
 

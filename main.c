@@ -29,9 +29,6 @@ int aux;
 char* lex;
 //const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
 
-struct Token token;
-struct nodo *tokAct;
-
 int isSimbol(char c){
 
     if(strchr(simbolos, c) != NULL){
@@ -214,15 +211,6 @@ char *formarTokenNoSimbol (FILE* file) {
     return tokenString;
 }
 
-static void getToken(){
-    tokAct=tokAct->der;
-    token = getInfoToken(tokAct);
-}
-
-void getAnteriorToken(){
-    tokAct=tokAct->izq;
-    token = getInfoToken(tokAct);
-}
 
 int main(){
     FILE* file;
@@ -347,20 +335,16 @@ int main(){
         token = getInfoToken(tokAct); //obtiene la info del token raiz
 
         printf("Lexema tok: %s\n", token.Lexema);
-        match("!=", token);
+        matchTipoToken("ID");
 
-        getToken();
         printf("Lexema tok: %s\n", token.Lexema);
-        match("!=", token);
+        match("!=");
 
-        getToken();
         printf("Lexema tok: %s\n", token.Lexema);
-        matchTipoToken("NUMERO", token);
+        matchTipoToken("CADENA");
 
-        getToken();
         printf("Lexema tok: %s\n", token.Lexema);
-        match(";", token);
-        operacionAritmetica(token);
+        operacionAritmetica();
 
         fclose(file);
 

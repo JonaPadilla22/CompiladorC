@@ -4,22 +4,24 @@
 #include <ctype.h>
 #include "procSintaxis.h"
 
-void operacionAritmetica(struct Token token){
+void operacionAritmetica(){
 
     if(strcmp("+", token.Lexema)==0){
-        match("+", token);
+        match("+");
     }
     else if(strcmp("-", token.Lexema)==0){
-        match("-", token);
+        match("-");
     }
     else if(strcmp("*", token.Lexema)==0){
-        match("*", token);
+        match("*");
     }
     else if(strcmp("/", token.Lexema)==0){
-        match("/", token);
+        match("/");
     }
     else
     {
         printf("error en la linea %d columna %d, se esperaba OPERACION ARITMETICA\n", token.NumLinea, token.NumCol);
+        getToken();
     }
 }
+
