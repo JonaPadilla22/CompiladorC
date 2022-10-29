@@ -19,13 +19,18 @@
 #include "automataEntero.h"
 #include "automataSimbolos.h"
 
+#include "procSintParte2.h"
+
 char *simbolos = "<>$=!),(}{:\";+-*/\\&|";
 char caracter,*ret;
 int num_lin = 1;
 long col_ac = 0;
 int aux;
 char* lex;
-const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
+//const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
+
+struct Token token;
+struct nodo *tokAct;
 
 int isSimbol(char c){
 
@@ -35,28 +40,6 @@ int isSimbol(char c){
         return 0;
     }
 }
-
-enum TipoToken{
-    PalRes,
-    id,
-    num,
-    sim,
-    cad
-};
-
-struct Token{
-    //char Nombre[80];
-    enum TipoToken Tipo;
-    char *Lexema;
-    int Valor;
-    int NumLinea;
-};
-
-struct nodo{
-    struct Token info;
-    struct nodo *izq;
-    struct nodo *der;
-};
 
 struct nodo *raiz;
 struct nodo *actual;
@@ -93,22 +76,12 @@ void imprimirlista(struct nodo *inicio){
         printf("Lexema: %s\n", act->info.Lexema);
         printf("Valor: %d\n", act->info.Valor);
         printf("Linea: %d\n", act->info.NumLinea);
+        printf("Columna: %d\n", act->info.NumCol);
         act=act->der;
         elem++;
     }
 }
 
-/*
-void concatenarCharACadena(char c, char* cadena){
-    char cadenaTemporal[2];
-
-    cadenaTemporal[0] = c;
-    cadenaTemporal[1] = '\0';
-
-    printf("%s", cadenaTemporal);
-    strcat(cadena, cadenaTemporal);
-}
-*/
 char *concatenarCadenaACadena (char *cadOrig, char *cadDest){
     char *cadenaTemporal;
     int y;
@@ -195,8 +168,14 @@ int isIdentificador (char* str) {
 
 void contarLinea(FILE* file){
     num_lin++;
-    col_ac = ftell(file) - 1;
+    col_ac = ftell(file);
     printf("--------------Linea %d--------------\n", num_lin);
+}
+
+int getColAct(int aux){
+    int col;
+    col = aux - col_ac;
+    return col;
 }
 
 char *formarTokenSimbol (FILE* file) {
@@ -235,11 +214,22 @@ char *formarTokenNoSimbol (FILE* file) {
     return tokenString;
 }
 
+static void getToken(){
+    tokAct=tokAct->der;
+    token = getInfoToken(tokAct);
+}
+
+void getAnteriorToken(){
+    tokAct=tokAct->izq;
+    token = getInfoToken(tokAct);
+}
+
 int main(){
     FILE* file;
     char* char_leido;
     int tok_valid=0;
     int is_tok_cad=0;
+    int aux;
     struct Token t;
 
     do{
@@ -255,7 +245,7 @@ int main(){
         caracter = (char)fgetc(file);
         printf("--------------Linea %d--------------\n", num_lin);
         while (caracter != EOF){
-
+            aux = ftell(file);
             if(isSimbol(caracter)){
                 if(caracter=='"'){
                     int cad_valid = 0;
@@ -336,9 +326,9 @@ int main(){
             }
 
             if(tok_valid==1){
-
                 t.Lexema = lex;
                 t.NumLinea = num_lin;
+                t.NumCol = getColAct(aux);
                 insertar(t);
             }
 
@@ -352,6 +342,25 @@ int main(){
         }
 
         imprimirlista(raiz);
+        printf("\n\n");
+        tokAct = raiz;
+        token = getInfoToken(tokAct); //obtiene la info del token raiz
+
+        printf("Lexema tok: %s\n", token.Lexema);
+        match("!=", token);
+
+        getToken();
+        printf("Lexema tok: %s\n", token.Lexema);
+        match("!=", token);
+
+        getToken();
+        printf("Lexema tok: %s\n", token.Lexema);
+        matchTipoToken("NUMERO", token);
+
+        getToken();
+        printf("Lexema tok: %s\n", token.Lexema);
+        match(";", token);
+        operacionAritmetica(token);
 
         fclose(file);
 

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1666927407 source:d:\usuarios\jonat\documentos\c\lexico\main.c
+1667064127 source:d:\usuarios\jonat\documentos\c\lexico\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -10,6 +10,7 @@
 	"automataCadenas.h"
 	"automataEntero.h"
 	"automataSimbolos.h"
+	"procSintParte2.h"
 
 1666714353 d:\usuarios\jonat\documentos\c\lexico\automatadecimal.h
 	<stdlib.h>
@@ -36,4 +37,20 @@
 	<ctype.h>
 	<stdlib.h>
 	<conio.h>
+
+1667063417 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"defTokens.h"
+
+1667064120 d:\usuarios\jonat\documentos\c\lexico\procsintparte2.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"procSintaxis.h"
+
+1667063404 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
 
