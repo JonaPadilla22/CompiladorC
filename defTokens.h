@@ -25,20 +25,34 @@ struct nodo{
     struct nodo *der;
 };
 
-struct Token getInfoToken(struct nodo *act){
+struct Token getInfoToken(){
     struct Token tok;
-    tok = act->info;
+    tok = tokAct->info;
+    return tok;
+};
+
+struct Token getInfoSigToken(){
+    struct Token tok;
+    struct nodo *sigTok;
+    sigTok = tokAct->der;
+    tok = sigTok->info;
     return tok;
 };
 
 static void getToken(){
     tokAct=tokAct->der;
-    token = getInfoToken(tokAct);
+    if(tokAct==NULL && strcmp("}", token.Lexema)!=0){
+        printf("error en la linea %d columna %d, se esperaba simbolo }\n", token.NumLinea, token.NumCol);
+        return;
+    }else if(tokAct==NULL && strcmp("}", token.Lexema)==0){
+        return;
+    }
+    token = getInfoToken();
 }
 
 void getAnteriorToken(){
     tokAct=tokAct->izq;
-    token = getInfoToken(tokAct);
+    token = getInfoToken();
 }
 
 

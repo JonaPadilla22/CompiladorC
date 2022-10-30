@@ -1,3 +1,9 @@
-Cad != "AA"+
-Por"WOOW"(Y=0:Y<=10:Y++){
-};
+Inicio(){
+	Numero_1=(1+(1+2)+56);
+	Si(Num4>1)Tons{
+		TintaFuera("a");
+		Por(Y=0:Y<10:Y=Y+1){
+			Tilin1 = (12>Num1+4.6);
+		}
+	}
+}

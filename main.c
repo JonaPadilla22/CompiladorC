@@ -22,6 +22,8 @@
 #include "procSintParte2.h"
 
 char *simbolos = "<>$=!),(}{:\";+-*/\\&|";
+char *simbolosAritm = "+-*/";
+char *simbolosLogic = ">!<=";
 char caracter,*ret;
 int num_lin = 1;
 long col_ac = 0;
@@ -32,6 +34,22 @@ char* lex;
 int isSimbol(char c){
 
     if(strchr(simbolos, c) != NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int isSimbolAritm(char c){
+    if(strchr(simbolosAritm, c) != NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int isSimbolLogic(char c){
+    if(strchr(simbolosLogic, c) != NULL){
         return 1;
     }else{
         return 0;
@@ -79,33 +97,19 @@ void imprimirlista(struct nodo *inicio){
     }
 }
 
-char *concatenarCadenaACadena (char *cadOrig, char *cadDest){
-    char *cadenaTemporal;
-    int y;
-    int x;
-    for(y = 0; y<strlen(cadDest); y++){
-        cadenaTemporal[y] = cadDest[y];
-    }
-    for(x = 0; x<strlen(cadOrig); x++){
-        cadenaTemporal[y+x] = cadOrig[x];
-    }
-    cadenaTemporal[strlen(cadOrig)+strlen(cadDest)] = '\0';
-    return cadenaTemporal;
-}
-
 int isPalabraReservada(char* pal){
     char *pals = "|Inicio|Verdadero|Falso|Entero|Logico|Decimal|Cadena|Nomoverle|Por|Si|Tons|Sino|TintaFuera|TintaDentro|Romper|Continuar";
-    printf("-");
-    char *cad = "|";
-    char *aux = concatenarCadenaACadena(pal, cad);
-    char *aux2 = concatenarCadenaACadena("|", aux);
+    char pipe[1] = "|";
+    char cad[20];
+    strcat(cad,pipe);
+    strcat(cad,pal);
+    strcat(cad,pipe);
+    if(strstr(pals, cad) != NULL){
 
-    if(strstr(pals, aux2) != NULL){
         return 1;
     }else{
         return 0;
     }
-
 }
 
 int isIdentificador (char* str) {
@@ -180,8 +184,20 @@ char *formarTokenSimbol (FILE* file) {
     int num_c = 0;
     tokenString = (char*)malloc(sizeof(char));
     tokenString[num_c] = caracter;
+
+    if(caracter==')' || caracter=='('){
+        num_c++;
+        tokenString[num_c] = '\0';
+        caracter = (char)fgetc(file);
+        return tokenString;
+    }
+
     num_c++;
     caracter = (char)fgetc(file);
+    if(caracter == ':'){
+        tokenString[num_c] = '\0';
+        return tokenString;
+    }
     while(isSimbol(caracter) && caracter!='(' && caracter!=')' && caracter!='{' && caracter!='}' && caracter!=';' && caracter!='"'){
         tokenString[num_c] = caracter;
         num_c++;
@@ -324,7 +340,8 @@ int main(){
                 contarLinea(file);
             }
 
-            if(caracter=='\n'||caracter==' '){
+            if(caracter=='\n'||caracter==' '||caracter=='\t'){
+                tok_valid=0;
                 caracter = (char)fgetc(file);
             }
         }
@@ -333,25 +350,11 @@ int main(){
         printf("\n\n");
         tokAct = raiz;
         token = getInfoToken(tokAct); //obtiene la info del token raiz
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        matchTipoToken("ID");
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        match("!=");
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        matchTipoToken("CADENA");
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        operacionAritmetica();
+        estructura_general();
 
         fclose(file);
-
         printf("\n\n");
-
         system("pause");
-
         char_leido = "\n";
         raiz = NULL;
         system("cls");
