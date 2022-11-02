@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "procSintaxis.h"
+#include "estructurasDatos.h"
 
-struct Token sigtok;
-struct Token auxT;
+Token sigtok;
+Token auxT;
 struct nodo *tokAux;
 
 void estructura_general(){
@@ -13,27 +13,26 @@ void estructura_general(){
     match("(");
     match(")");
     bloque_codigo();
+    if(token.Lexema != ""){
+        printf("error en la linea %d columna %d\n", token.NumLinea, token.NumCol);
+    }
 }
 
 void bloque_codigo(){
     match("{");
     lista_sentencias();
-    //printf("sale lis sent\n");
-    //printf("tok: %s\n", token.Lexema);
     match("}");
 }
 
 void lista_sentencias(){
-    while(strcmp("}", token.Lexema)!=0){
+    while(strcmp("}", token.Lexema)!=0 && token.Lexema != ""){
         sentencia();
     }
 }
 
 void sentencia(){
-    // printf("Token en sentencia: %s.\n", token.Lexema);
     // CONDICION
     if(strcmp("Si", token.Lexema)==0){
-        //printf("Entre a sentencia if %s",token.Lexema);
         sentenciaSi();
         return;
     }
@@ -76,17 +75,13 @@ void sentencia(){
         return;
     }
 
-    system("pause");
-    //ERROR?
     printf("Error en la linea %d columna %d\n", token.NumLinea, token.NumCol);
 
 }
 
 int comprobar_final_declaracion(){
     matchTipoToken("ID");
-
     if(strcmp(";", token.Lexema)==0) return 1;
-
     match("=");
     return 0;
 }
@@ -140,15 +135,12 @@ void declaracion(){
 }
 
 void asignacion(){
-
     matchTipoToken("ID");
     match("=");
-
     tipoDato();
     match(";");
 }
 
-//PARTE 2
 void operacionLogica(){
     if(strcmp(">", token.Lexema)==0){
         match(">");
@@ -403,15 +395,10 @@ void sentenciaSiCondicion(){
     logico();
     match(")");
     match("Tons");
-    if(strcmp("{", token.Lexema)==0){
-        bloque_codigo();
-    }
-    else if(strcmp("Sino", token.Lexema)==0){
+    bloque_codigo();
+    if(strcmp("Sino", token.Lexema)==0){
         match("Sino");
-        if(strcmp("{", token.Lexema)==0){
-            bloque_codigo();
-        }
-        else if(strcmp("(", token.Lexema)==0){
+        if(strcmp("(", token.Lexema)==0){
             sentenciaSiCondicion();
         }
         else{

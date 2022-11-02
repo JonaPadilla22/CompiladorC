@@ -1,9 +1,24 @@
-Inicio(){
-	Numero_1=(1+(1+2)+56);
-	Si(Num4>1)Tons{
-		TintaFuera("a");
-		Por(Y=0:Y<10:Y=Y+1){
-			Tilin1 = (12>Num1+4.6);
+Inicio()
+{
+	Numero_1=((1+2)+56);
+	Si(Num4>1)Tons
+	{
+		TintaFuera("aa");
+		Por(Y=0:Y < 10:Y=Y+Num4)
+		{
+			Tilin1 = (12>Num1);
+		}
+	}Sino
+	{
+		Si(Num4>1)Tons
+		{
+			TintaFuera(Texto6);
+		}Sino()Tons{
+
+		}Sino("aaa"==Texto6) Tons {
+
+		}Sino{
+
 		}
 	}
 }

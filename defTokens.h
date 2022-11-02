@@ -1,5 +1,3 @@
-struct Token token;
-struct nodo *tokAct;
 
 const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
 
@@ -11,28 +9,31 @@ enum TipoToken{
     cad
 };
 
-struct Token{
+typedef struct{
     enum TipoToken Tipo;
     char *Lexema;
     int Valor;
     int NumLinea;
     int NumCol;
-};
+} Token;
 
 struct nodo{
-    struct Token info;
+    Token info;
     struct nodo *izq;
     struct nodo *der;
 };
 
-struct Token getInfoToken(){
-    struct Token tok;
+struct nodo *tokAct;
+Token token;
+
+Token getInfoToken(){
+    Token tok;
     tok = tokAct->info;
     return tok;
 };
 
-struct Token getInfoSigToken(){
-    struct Token tok;
+Token getInfoSigToken(){
+    Token tok;
     struct nodo *sigTok;
     sigTok = tokAct->der;
     tok = sigTok->info;
@@ -40,13 +41,11 @@ struct Token getInfoSigToken(){
 };
 
 static void getToken(){
-    tokAct=tokAct->der;
-    if(tokAct==NULL && strcmp("}", token.Lexema)!=0){
-        printf("error en la linea %d columna %d, se esperaba simbolo }\n", token.NumLinea, token.NumCol);
-        return;
-    }else if(tokAct==NULL && strcmp("}", token.Lexema)==0){
+    if(tokAct->der==NULL){
+        token.Lexema = "";
         return;
     }
+    tokAct=tokAct->der;
     token = getInfoToken();
 }
 

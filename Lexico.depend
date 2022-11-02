@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1667125557 source:d:\usuarios\jonat\documentos\c\lexico\main.c
+1667369252 source:d:\usuarios\jonat\documentos\c\lexico\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -10,7 +10,8 @@
 	"automataCadenas.h"
 	"automataEntero.h"
 	"automataSimbolos.h"
-	"procSintParte2.h"
+	"procSintaxis.h"
+	"gramaticas.h"
 
 1666710753 d:\usuarios\jonat\documentos\c\lexico\automatadecimal.h
 	<stdlib.h>
@@ -38,19 +39,32 @@
 	<stdlib.h>
 	<conio.h>
 
-1667109873 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
+1667369024 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"defTokens.h"
 
-1667127462 d:\usuarios\jonat\documentos\c\lexico\procsintparte2.h
+1667204484 d:\usuarios\jonat\documentos\c\lexico\procsintparte2.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"procSintaxis.h"
 
-1667110288 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
+1667369320 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
+
+1667369248 d:\usuarios\jonat\documentos\c\lexico\gramaticas.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"estructurasDatos.h"
+
+1667369555 d:\usuarios\jonat\documentos\c\lexico\estructurasdatos.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
 

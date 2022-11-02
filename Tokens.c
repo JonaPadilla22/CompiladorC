@@ -11,7 +11,7 @@ enum TipoToken
     sim
 };
 
-struct Token
+Token
 {
     //char Nombre[80];
     enum TipoToken Tipo;
@@ -21,7 +21,7 @@ struct Token
 
 struct nodo
 {
-    struct Token info;
+    Token info;
     struct nodo *izq;
     struct nodo *der;
 };
@@ -29,7 +29,7 @@ struct nodo
 struct nodo *raiz;
 struct nodo *actual;
 
-void insertar(struct Token token)
+void insertar(Token token)
 {
     struct nodo *nuevo;
     nuevo = malloc(sizeof(struct nodo));

@@ -3,9 +3,9 @@
         PADILLA JARAMILLO JONATHAN
         SAUCEDA RUIZ HECTOR EDUARDO
     GRUPO: 401 SOFTWARE
-    FECHA: 30/SEPTIEMBRE/2022
-    NOMBRE: COMPILADOR FASE LEXICO
-    DESCRIPCION: AVANCE DE COMPILADOR EN SU FASE LEXICA
+    FECHA: 31/OCTUBRE/2022
+    NOMBRE: COMPILADOR FASE SINTAXIS
+    DESCRIPCION: AVANCE DE COMPILADOR EN SU FASE DE SINTAXIS
 */
 
 #include <stdio.h>
@@ -18,10 +18,10 @@
 #include "automataCadenas.h"
 #include "automataEntero.h"
 #include "automataSimbolos.h"
+#include "procSintaxis.h"
+#include "gramaticas.h"
 
-#include "procSintParte2.h"
-
-char *simbolos = "<>$=!),(}{:\";+-*/\\&|";
+char *simbolos = "<>=!),(}{:\";+-*/\\&|";
 char *simbolosAritm = "+-*/";
 char *simbolosLogic = ">!<=";
 char caracter,*ret;
@@ -29,7 +29,6 @@ int num_lin = 1;
 long col_ac = 0;
 int aux;
 char* lex;
-//const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
 
 int isSimbol(char c){
 
@@ -59,7 +58,7 @@ int isSimbolLogic(char c){
 struct nodo *raiz;
 struct nodo *actual;
 
-void insertar(struct Token token){
+void insertar(Token token){
     struct nodo *nuevo;
     nuevo = malloc(sizeof(struct nodo));
 
@@ -97,19 +96,32 @@ void imprimirlista(struct nodo *inicio){
     }
 }
 
-int isPalabraReservada(char* pal){
-    char *pals = "|Inicio|Verdadero|Falso|Entero|Logico|Decimal|Cadena|Nomoverle|Por|Si|Tons|Sino|TintaFuera|TintaDentro|Romper|Continuar";
-    char pipe[1] = "|";
-    char cad[20];
-    strcat(cad,pipe);
-    strcat(cad,pal);
-    strcat(cad,pipe);
-    if(strstr(pals, cad) != NULL){
+char *concatenarCadenaACadena (char *cadOrig, char *cadDest){
+    char *cadenaTemporal;
+    int y;
+    int x;
+    for(y = 0; y<strlen(cadDest); y++){
+        cadenaTemporal[y] = cadDest[y];
+    }
+    for(x = 0; x<strlen(cadOrig); x++){
+        cadenaTemporal[y+x] = cadOrig[x];
+    }
+    cadenaTemporal[strlen(cadOrig)+strlen(cadDest)] = '\0';
+    return cadenaTemporal;
+}
 
+int isPalabraReservada(char* pal){
+    char *pals = "|Inicio|Verdadero|Falso|Entero|Logico|Decimal|Cadena|Nomoverle|Por|Si|Tons|Sino|TintaFuera|TintaDentro|Romper|Continuar|";
+    printf(" ");
+    char *cad = "|";
+    char *aux = concatenarCadenaACadena(pal, cad);
+    char *aux2 = concatenarCadenaACadena("|", aux);
+    if(strstr(pals, aux2) != NULL){
         return 1;
     }else{
         return 0;
     }
+
 }
 
 int isIdentificador (char* str) {
@@ -234,7 +246,7 @@ int main(){
     int tok_valid=0;
     int is_tok_cad=0;
     int aux;
-    struct Token t;
+    Token t;
 
     do{
         num_lin = 1;
@@ -346,7 +358,7 @@ int main(){
             }
         }
 
-        imprimirlista(raiz);
+        //imprimirlista(raiz);
         printf("\n\n");
         tokAct = raiz;
         token = getInfoToken(tokAct); //obtiene la info del token raiz
