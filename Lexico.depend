@@ -1,5 +1,9 @@
 # depslib dependency file v1.0
+<<<<<<< Updated upstream
 1667067340 source:d:\usuarios\jonat\documentos\c\lexico\main.c
+=======
+1667369675 source:d:\usuarios\jonat\documentos\c\lexico\main.c
+>>>>>>> Stashed changes
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -38,7 +42,11 @@
 	<stdlib.h>
 	<conio.h>
 
+<<<<<<< Updated upstream
 1667067235 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
+=======
+1667370455 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
+>>>>>>> Stashed changes
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -52,5 +60,22 @@
 	<ctype.h>
 	"procSintaxis.h"
 
+<<<<<<< Updated upstream
 1667067363 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
+=======
+1667369320 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
+
+1667374654 d:\usuarios\jonat\documentos\c\lexico\gramaticas.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"estructurasDatos.h"
+
+1667374544 d:\usuarios\jonat\documentos\c\lexico\estructurasdatos.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+>>>>>>> Stashed changes
 
