@@ -64,28 +64,25 @@ struct Declaracion{
 
 struct Asignacion{
     Token identificador;
+    Token igual;
     union tipoDato dato;
 };
 
-struct SentenciaIf{
-    Token si;
-    Token parentesisAbre;
-    struct Logico *condicion;
-    Token parentesisCierra;
-    Token tons;
-    struct BloqueCodigo *contenido;
-    struct ElseIf *elseif;
+
+union ElseUnion {
+    struct SentenciaIf *elseif;
     struct Else *sino;
 };
 
-struct ElseIf{
-    Token sino;
+
+struct SentenciaIf{
+    Token nombre;
     Token parentesisAbre;
     struct Logico *condicion;
     Token parentesisCierra;
     Token tons;
     struct BloqueCodigo *contenido;
-    struct ElseIf *elseif;
+    union ElseUnion *sino;
 };
 
 struct Else{
@@ -132,9 +129,8 @@ enum OperacionAritmetica{
 struct Operacion{
     Token identificador;
     Token igual;
-    struct Entero *ent1;
+    struct Entero *entero;
     Token opAritmetica;
-    struct Entero *ent2;
 };
 
 struct Entero {

@@ -22,18 +22,22 @@
 #include "procSintParte2.h"
 
 char *simbolos = "<>$=!),(}{:\";+-*/\\&|";
-char caracter,*ret;
+char caracter, *ret;
 int num_lin = 1;
 long col_ac = 0;
 int aux;
-char* lex;
-//const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
+char *lex;
+// const char* tipoTokenNames[] = {"PALABRA RESERVADA", "ID", "NUMERO", "SIMBOLO", "CADENA"};
 
-int isSimbol(char c){
+int isSimbol(char c)
+{
 
-    if(strchr(simbolos, c) != NULL){
+    if (strchr(simbolos, c) != NULL)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
@@ -41,9 +45,11 @@ int isSimbol(char c){
 struct nodo *raiz;
 struct nodo *actual;
 
-void insertar(struct Token token){
+void insertar(struct Token token)
+{
     struct nodo *nuevo;
-    nuevo = malloc(sizeof(struct nodo));
+    //FIXME: malloc do not working properly here
+    nuevo = malloc(10*sizeof(struct nodo));
 
     nuevo->info = token;
     nuevo->izq = NULL;
@@ -62,127 +68,162 @@ void insertar(struct Token token){
     }
 }
 
-void imprimirlista(struct nodo *inicio){
+void imprimirlista(struct nodo *inicio)
+{
     printf("\n------------LISTA ENLAZADA------------\n");
     struct nodo *act;
-    act=inicio;
+    act = inicio;
     int elem = 0;
-    while(act!=NULL){
-        printf("\nELEMENTO %d\n", elem+1),
-        printf("Tipo: %s\n", tipoTokenNames[act->info.Tipo]);
+    while (act != NULL)
+    {
+        printf("\nELEMENTO %d\n", elem + 1),
+            printf("Tipo: %s\n", tipoTokenNames[act->info.Tipo]);
         printf("Lexema: %s\n", act->info.Lexema);
         printf("Valor: %d\n", act->info.Valor);
         printf("Linea: %d\n", act->info.NumLinea);
         printf("Columna: %d\n", act->info.NumCol);
-        act=act->der;
+        act = act->der;
         elem++;
     }
 }
 
-char *concatenarCadenaACadena (char *cadOrig, char *cadDest){
+char *concatenarCadenaACadena(char *cadOrig, char *cadDest)
+{
     char *cadenaTemporal;
     int y;
     int x;
-    for(y = 0; y<strlen(cadDest); y++){
+    for (y = 0; y < strlen(cadDest); y++)
+    {
         cadenaTemporal[y] = cadDest[y];
     }
-    for(x = 0; x<strlen(cadOrig); x++){
-        cadenaTemporal[y+x] = cadOrig[x];
+    for (x = 0; x < strlen(cadOrig); x++)
+    {
+        cadenaTemporal[y + x] = cadOrig[x];
     }
-    cadenaTemporal[strlen(cadOrig)+strlen(cadDest)] = '\0';
+    cadenaTemporal[strlen(cadOrig) + strlen(cadDest)] = '\0';
     return cadenaTemporal;
 }
 
-int isPalabraReservada(char* pal){
+int isPalabraReservada(char *pal)
+{
     char *pals = "|Inicio|Verdadero|Falso|Entero|Logico|Decimal|Cadena|Nomoverle|Por|Si|Tons|Sino|TintaFuera|TintaDentro|Romper|Continuar";
-    printf("-");
-    char *cad = "|";
-    char *aux = concatenarCadenaACadena(pal, cad);
-    char *aux2 = concatenarCadenaACadena("|", aux);
+    // printf("-");
+    char pipe[2] = "|\0";
+    char cad[30];
+    // printf("siuuuuu");
+    // char *aux = concatenarCadenaACadena(pal, cad);
+    // char *aux2 = concatenarCadenaACadena("|", aux);
 
-    if(strstr(pals, aux2) != NULL){
+    strcpy(cad, pipe);
+    strcat(cad, pal);
+    strcat(cad, pipe);
+
+    // printf("\nCadena generada: %s\n", cad);
+
+    if (strstr(pals, cad) != NULL)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
-
 }
 
-int isIdentificador (char* str) {
+int isIdentificador(char *str)
+{
     int estado = 1;
     int numc = 0;
     char c = str[numc];
-
-    while (estado == 1 || estado == 2 || estado == 3){
-        switch (estado) {
-            case 1:
-              if(isalpha(c) == 1){
+    while (estado == 1 || estado == 2 || estado == 3)
+    {
+        switch (estado)
+        {
+        case 1:
+            if (isalpha(c) == 1)
+            {
                 estado = 2;
-              }else{
-                  estado = 0;
-                  break;
-              }
-              numc++;
-              c = str[numc];
-              break;
-            case 2:
-              if(isalnum(c)!=0){
+            }
+            else
+            {
+                estado = 0;
+                break;
+            }
+            numc++;
+            c = str[numc];
+            break;
+        case 2:
+            if (isalnum(c) != 0)
+            {
                 estado = 2;
-              }else if (c == '_'){
+            }
+            else if (c == '_')
+            {
                 estado = 3;
-              }else if (c == '\0' || isSimbol(c)!=0 || c == '\n'){
+            }
+            else if (c == '\0' || isSimbol(c) != 0 || c == '\n')
+            {
                 estado = 4;
                 break;
-              }
-              else {
+            }
+            else
+            {
                 estado = 0;
                 break;
-              }
-              numc++;
-              c = str[numc];
-              break;
-            case 3:
-              if(isalnum(c)!=0){
+            }
+            numc++;
+            c = str[numc];
+            break;
+        case 3:
+            if (isalnum(c) != 0)
+            {
                 estado = 2;
-              } else{
+            }
+            else
+            {
                 estado = 0;
                 break;
-              }
-              numc++;
-              c = str[numc];
-              break;
+            }
+            numc++;
+            c = str[numc];
+            break;
         }
-
     }
 
-    if(estado == 4){
+    if (estado == 4)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
-
 }
 
-void contarLinea(FILE* file){
+void contarLinea(FILE *file)
+{
     num_lin++;
     col_ac = ftell(file);
     printf("--------------Linea %d--------------\n", num_lin);
 }
 
-int getColAct(int aux){
+int getColAct(int aux)
+{
     int col;
     col = aux - col_ac;
     return col;
 }
 
-char *formarTokenSimbol (FILE* file) {
-    char* tokenString;
+char *formarTokenSimbol(FILE *file)
+{
+    char *tokenString;
     int num_c = 0;
-    tokenString = (char*)malloc(sizeof(char));
+    tokenString = (char *)malloc(sizeof(char));
     tokenString[num_c] = caracter;
     num_c++;
     caracter = (char)fgetc(file);
-    while(isSimbol(caracter) && caracter!='(' && caracter!=')' && caracter!='{' && caracter!='}' && caracter!=';' && caracter!='"'){
+    while (isSimbol(caracter) && caracter != '(' && caracter != ')' && caracter != '{' && caracter != '}' && caracter != ';' && caracter != '"')
+    {
         tokenString[num_c] = caracter;
         num_c++;
         caracter = (char)fgetc(file);
@@ -191,17 +232,20 @@ char *formarTokenSimbol (FILE* file) {
     return tokenString;
 }
 
-char *formarTokenNoSimbol (FILE* file) {
-    char* tokenString;
+char *formarTokenNoSimbol(FILE *file)
+{
+    char *tokenString;
     int num_c = 0;
-    tokenString = (char*)malloc(sizeof(char));
+    tokenString = (char *)malloc(sizeof(char));
     tokenString[num_c] = caracter;
     num_c++;
     caracter = (char)fgetc(file);
-    while((caracter!=EOF) && (caracter!='\n') && (caracter!=' ') && (isSimbol(caracter)==0)){
+    while ((caracter != EOF) && (caracter != '\n') && (caracter != ' ') && (isSimbol(caracter) == 0))
+    {
         tokenString[num_c] = caracter;
         num_c++;
-        if(isSimbol(caracter)==1){
+        if (isSimbol(caracter) == 1)
+        {
             printf("A");
             break;
         }
@@ -211,20 +255,22 @@ char *formarTokenNoSimbol (FILE* file) {
     return tokenString;
 }
 
-
-int main(){
-    FILE* file;
-    char* char_leido;
-    int tok_valid=0;
-    int is_tok_cad=0;
+int main()
+{
+    FILE *file;
+    char *char_leido;
+    int tok_valid = 0;
+    int is_tok_cad = 0;
     int aux;
     struct Token t;
 
-    do{
+    do
+    {
         num_lin = 1;
         col_ac = 0;
 
-        if((file = fopen("programa.txt","rt")) == NULL){
+        if ((file = fopen("programa.txt", "rt")) == NULL)
+        {
             printf("Error al abrir el archivo\n\n");
             system("pause");
             return 0;
@@ -232,107 +278,127 @@ int main(){
 
         caracter = (char)fgetc(file);
         printf("--------------Linea %d--------------\n", num_lin);
-        while (caracter != EOF){
+        while (caracter != EOF)
+        {
             aux = ftell(file);
-            if(isSimbol(caracter)){
-                if(caracter=='"'){
+            if (caracter == '\n')
+            {
+                contarLinea(file);
+            }
+
+            if (caracter == '\n' || caracter == ' ' || caracter == '\t')
+            {
+                caracter = (char)fgetc(file);
+            }
+
+            if (isSimbol(caracter))
+            {
+                if (caracter == '"')
+                {
                     int cad_valid = 0;
-                    int nc=0;
-                    lex = (char*)malloc(sizeof(char));
+                    int nc = 0;
+                    lex = (char *)malloc(sizeof(char));
                     lex[nc] = caracter;
                     caracter = (char)fgetc(file);
-                    while(caracter!='\n'){
+                    while (caracter != '\n')
+                    {
                         nc++;
                         lex[nc] = caracter;
-                        if(caracter=='"' && lex[nc-1]!='\\'){
-                            cad_valid=1;
+                        if (caracter == '"' && lex[nc - 1] != '\\')
+                        {
+                            cad_valid = 1;
                             caracter = (char)fgetc(file);
                             break;
                         }
                         caracter = (char)fgetc(file);
                     }
 
-                    if(cad_valid==1){
+                    if (cad_valid == 1)
+                    {
                         printf("TOKEN: %s (cadena)\n", lex);
-                        tok_valid=1;
+                        tok_valid = 1;
                         t.Valor = 0;
                         t.Tipo = cad;
-                    }else{
+                    }
+                    else
+                    {
                         printf("CADENA INVALIDA\n");
-                        tok_valid=0;
+                        tok_valid = 0;
                     }
                 }
-                else{
+                else
+                {
                     lex = formarTokenSimbol(file);
-                    if(isSimbolToken(lex)==1){
+                    if (isSimbolToken(lex) == 1)
+                    {
                         printf("TOKEN: %s (simbolo)\n", lex);
-                        tok_valid=1;
+                        tok_valid = 1;
                         t.Valor = 0;
                         t.Tipo = sim;
                     }
-                    else{
+                    else
+                    {
                         printf("TOKEN NO VALIDO: %s\n", lex);
-                        tok_valid=0;
+                        tok_valid = 0;
                     }
-
                 }
             }
-            else if(isalnum(caracter)||caracter=='.'){
+            else if (isalnum(caracter) || caracter == '.')
+            {
                 lex = formarTokenNoSimbol(file);
 
-                if(isIdentificador(lex)==1){
-                    if(isPalabraReservada(lex)==1){
+                if (isIdentificador(lex) == 1)
+                {
+                    if (isPalabraReservada(lex) == 1)
+                    {
                         printf("TOKEN: %s (palabra reservada)\n", lex);
-                        tok_valid=1;
+                        tok_valid = 1;
                         t.Valor = 0;
                         t.Tipo = PalRes;
                     }
-                    else{
+                    else
+                    {
                         printf("TOKEN: %s (identificador)\n", lex);
-                        tok_valid=1;
+                        tok_valid = 1;
                         t.Valor = 0;
                         t.Tipo = id;
                     }
                 }
-                else if(isEntero(lex)==1){
+                else if (isEntero(lex) == 1)
+                {
                     printf("TOKEN: %s (num entero)\n", lex);
-                    tok_valid=1;
+                    tok_valid = 1;
                     t.Valor = atoi(lex);
                     t.Tipo = num;
                 }
-                else if(IsNumberDecimal(lex)==1){
+                else if (IsNumberDecimal(lex) == 1)
+                {
                     printf("TOKEN: %s (num decimal)\n", lex);
-                    tok_valid=1;
+                    tok_valid = 1;
                     t.Valor = atof(lex);
                     t.Tipo = num;
                 }
-                else{
+                else
+                {
                     printf("TOKEN NO VALIDO: %s\n", lex);
-                    tok_valid=0;
+                    tok_valid = 0;
                 }
-
             }
 
-            if(tok_valid==1){
+            if (tok_valid == 1)
+            {
                 t.Lexema = lex;
                 t.NumLinea = num_lin;
                 t.NumCol = getColAct(aux);
                 insertar(t);
             }
-
-            if(caracter=='\n'){
-                contarLinea(file);
-            }
-
-            if(caracter=='\n'||caracter==' '){
-                caracter = (char)fgetc(file);
-            }
+            // printf("Repitiendo = %s\n", lex);
         }
 
-        imprimirlista(raiz);
+        // imprimirlista(raiz);
         printf("\n\n");
         tokAct = raiz;
-        token = getInfoToken(tokAct); //obtiene la info del token raiz
+        token = getInfoToken(tokAct); // obtiene la info del token raiz
 
         printf("Lexema tok: %s\n", token.Lexema);
         matchTipoToken("ID");
@@ -355,7 +421,7 @@ int main(){
         char_leido = "\n";
         raiz = NULL;
         system("cls");
-    }while(char_leido == "\n");
+    } while (char_leido == "\n");
 
     return 0;
 }

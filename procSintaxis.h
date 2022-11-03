@@ -4,9 +4,6 @@
 #include <ctype.h>
 #include "defTokens.h"
 
-<<<<<<< Updated upstream
-void match(char* expToken){
-=======
 int match(char* expToken){
     if(token.Lexema == ""){
         getAnteriorToken();
@@ -15,7 +12,6 @@ int match(char* expToken){
         return 0;
     }
 
->>>>>>> Stashed changes
     if(strcmp(expToken, token.Lexema) == 0){
         getToken();
         return 1;
@@ -25,9 +21,6 @@ int match(char* expToken){
     }
 }
 
-<<<<<<< Updated upstream
-void matchTipoToken(char* expTipo){
-=======
 int matchTipoToken(char* expTipo){
     if(token.Lexema == ""){
         getAnteriorToken();
@@ -36,7 +29,6 @@ int matchTipoToken(char* expTipo){
         return 0;
     }
 
->>>>>>> Stashed changes
     if(strcmp(expTipo, tipoTokenNames[token.Tipo]) == 0){
         getToken();
         return 1;

@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-<<<<<<< Updated upstream
-1667067340 source:d:\usuarios\jonat\documentos\c\lexico\main.c
-=======
+233 <<<<<<< Updated upstream
+
 1667369675 source:d:\usuarios\jonat\documentos\c\lexico\main.c
->>>>>>> Stashed changes
+
+1667374544 shed changes
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -15,6 +15,11 @@
 	"automataEntero.h"
 	"automataSimbolos.h"
 	"procSintParte2.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"defTokens.h"
 
 1666714353 d:\usuarios\jonat\documentos\c\lexico\automatadecimal.h
 	<stdlib.h>
@@ -42,16 +47,9 @@
 	<stdlib.h>
 	<conio.h>
 
-<<<<<<< Updated upstream
-1667067235 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
-=======
+1667067260 ated upstream
+
 1667370455 d:\usuarios\jonat\documentos\c\lexico\procsintaxis.h
->>>>>>> Stashed changes
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<ctype.h>
-	"defTokens.h"
 
 1667067260 d:\usuarios\jonat\documentos\c\lexico\procsintparte2.h
 	<stdio.h>
@@ -60,9 +58,6 @@
 	<ctype.h>
 	"procSintaxis.h"
 
-<<<<<<< Updated upstream
-1667067363 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
-=======
 1667369320 d:\usuarios\jonat\documentos\c\lexico\deftokens.h
 
 1667374654 d:\usuarios\jonat\documentos\c\lexico\gramaticas.h
@@ -77,5 +72,59 @@
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
->>>>>>> Stashed changes
+
+1667421465 source:c:\users\hecto\documentos\github\compiladorc\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<stdlib.h>
+	<conio.h>
+	"automataDecimal.h"
+	"automataCadenas.h"
+	"automataEntero.h"
+	"automataSimbolos.h"
+	"procSintParte2.h"
+
+1667013691 c:\users\hecto\documentos\github\compiladorc\automatadecimal.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+
+1667013691 c:\users\hecto\documentos\github\compiladorc\automatacadenas.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+
+1667071860 c:\users\hecto\documentos\github\compiladorc\automataentero.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<stdlib.h>
+	<conio.h>
+
+1667421862 c:\users\hecto\documentos\github\compiladorc\automatasimbolos.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+
+1667376124 c:\users\hecto\documentos\github\compiladorc\procsintparte2.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"procSintaxis.h"
+
+1667418683 c:\users\hecto\documentos\github\compiladorc\procsintaxis.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"defTokens.h"
+
+1667376124 c:\users\hecto\documentos\github\compiladorc\deftokens.h
 

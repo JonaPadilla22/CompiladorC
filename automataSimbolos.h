@@ -13,7 +13,6 @@ int isSimbolToken(char* str)
     char division = '/';
     int numc = 0;
     char car = str[numc];
-
     while (estado != 9 && estado != 0)
     {
         switch (estado)
@@ -39,12 +38,14 @@ int isSimbolToken(char* str)
             }
             break;
         case 2:
+
             if (car == '\0')
             {
                 estado = 9;
                 break;
             }
             if(car == '='){
+
                 estado = 3;
                 break;
             }
