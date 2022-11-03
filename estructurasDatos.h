@@ -3,6 +3,10 @@
 #include <string.h>
 #include <ctype.h>
 
+Token sigtok;
+Token auxT;
+struct nodo *tokAux;
+
 enum TiposSentencias{
     Declaracion,
     Asignacion,
@@ -12,12 +16,7 @@ enum TiposSentencias{
     Escribir
 };
 
-enum TipoDatos{
-    Entero,
-    Decimal,
-    Cadena,
-    Logico
-};
+
 
 struct EstructuraGeneral{
     Token inicio;
@@ -54,24 +53,30 @@ struct Sentencia{
     struct Sentencia *siguiente; //siguiente sentencia en el mismo bloque de codigo
     union tipoSent sentencia;
 };
-
+enum TipoDatos{
+    Entero,
+    Decimal,
+    Cadena,
+    Logico
+};
 struct Declaracion{
-    int constante; //1 si es constante y 0 si no
     Token nomov;
     enum TipoDatos Tipo;
     struct Asignacion *asignacion;
+    Token puntoComa;
 };
 
 struct Asignacion{
     Token identificador;
     Token igual;
     union tipoDato dato;
+    Token puntoComa;
 };
 
 
 union ElseUnion {
-    struct SentenciaIf *elseif;
-    struct Else *sino;
+    struct SentenciaIf *tons;
+    struct Else *final;
 };
 
 
@@ -82,12 +87,12 @@ struct SentenciaIf{
     Token parentesisCierra;
     Token tons;
     struct BloqueCodigo *contenido;
-    union ElseUnion *sino;
+    union ElseUnion sino;
 };
 
 struct Else{
     Token sino;
-    struct BloqueCodigo contenido;
+    struct BloqueCodigo *contenido;
 };
 
 struct SentenciaPor{
@@ -135,7 +140,7 @@ struct Operacion{
 
 struct Entero {
     Token parentesisAbre;
-    Token valorEntero;
+    Token valor;
     Token opAritmetica;
     struct Entero *sigEntero;
     Token parentesisCierra;
@@ -143,15 +148,15 @@ struct Entero {
 
 struct Logico {
     Token parentesisAbre;
-    Token valorLogico;
-    Token opLogica;
-    struct Logico *sigLogico;
+    Token valor;
+    Token operacion;
+    union tipoDato sigDato;
     Token parentesisCierra;
 };
 
 struct Decimal {
     Token parentesisAbre;
-    Token valorDecimal;
+    Token valor;
     Token opAritmetica;
     struct Decimal *sigDecimal;
     Token parentesisCierra;
@@ -168,6 +173,7 @@ struct Leer {
     Token parentesisAbre;
     Token identificador;
     Token parentesisCierra;
+    Token puntoComa;
 };
 
 struct Escribir {

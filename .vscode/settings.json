@@ -1,0 +1,23 @@
+{
+    "files.associations": {
+        "*.html": "html",
+        "procsintparte2.h": "c",
+        "generales.h": "c",
+        "declaracion.h": "c",
+        "operaciones.h": "c",
+        "stdlib.h": "c",
+        "automatasimbolos.h": "c",
+        "sentenciapor.h": "c",
+        "decimal.h": "c",
+        "automatadecimal.h": "c",
+        "conio.h": "c",
+        "sentenciasi.h": "c",
+        "bloquecodigo.h": "c",
+        "automatacadenas.h": "c",
+        "estructurasdatos.h": "c",
+        "gramaticas.h": "c",
+        "deftokens.h": "c",
+        "incializarestructuras.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

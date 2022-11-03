@@ -14,12 +14,13 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <conio.h>
+#include "defTokens.h"
+#include "procSintaxis.h"
+#include "gramaticas.h"
 #include "automataDecimal.h"
 #include "automataCadenas.h"
 #include "automataEntero.h"
 #include "automataSimbolos.h"
-
-#include "procSintParte2.h"
 
 char *simbolos = "<>$=!),(}{:\";+-*/\\&|";
 char caracter, *ret;
@@ -45,10 +46,9 @@ int isSimbol(char c)
 struct nodo *raiz;
 struct nodo *actual;
 
-void insertar(struct Token token)
+void insertar(Token token)
 {
     struct nodo *nuevo;
-    //FIXME: malloc do not working properly here
     nuevo = malloc(10*sizeof(struct nodo));
 
     nuevo->info = token;
@@ -262,7 +262,7 @@ int main()
     int tok_valid = 0;
     int is_tok_cad = 0;
     int aux;
-    struct Token t;
+    Token t;
 
     do
     {
@@ -400,17 +400,7 @@ int main()
         tokAct = raiz;
         token = getInfoToken(tokAct); // obtiene la info del token raiz
 
-        printf("Lexema tok: %s\n", token.Lexema);
-        matchTipoToken("ID");
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        match("!=");
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        matchTipoToken("CADENA");
-
-        printf("Lexema tok: %s\n", token.Lexema);
-        operacionAritmetica();
+        estructura_general();
 
         fclose(file);
 
